@@ -7,6 +7,46 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/Users/isumyeong/Downloads/lucene-4.6.1 3/demo/src/java/org/apache/lucene/demo/IndexFiles.java",
+			"settings":
+			{
+				"buffer_size": 8435,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/2014_02_03 이화여대 수정/css/common.css",
+			"settings":
+			{
+				"buffer_size": 3446,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/0108_이화여대_R2GotIt_html/html/04_통계보기-추천통계.html",
+			"settings":
+			{
+				"buffer_size": 3429,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/0108_이화여대_R2GotIt_html/html/05_통계보기-조회통계.html",
+			"settings":
+			{
+				"buffer_size": 3623,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/2014_02_03 이화여대 수정/css/recommend.css",
+			"settings":
+			{
+				"buffer_size": 3242,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -32,6 +72,10 @@
 	},
 	"file_history":
 	[
+		"/Users/isumyeong/Downloads/lucene-4.6.1 3/demo/src/java/org/apache/lucene/demo/SearchFiles.java",
+		"/Users/isumyeong/Documents/eclipsWorks/workspace_gotit/2014.EWHA.Gotit.app/conf/profile.xml",
+		"/Users/isumyeong/Documents/eclipsWorks/workspace_gotit/2014.EWHA.Gotit.app/conf/subModule.xml",
+		"/Users/isumyeong/Documents/eclipsWorks/work_solr/bmt/.project",
 		"/Users/isumyeong/Documents/eclipsWorks/workspace/arirang.morph/src/main/java/org/apache/lucene/analysis/ko/utils/Utilities.java",
 		"/Users/isumyeong/Documents/eclipsWorks/workspace/arirang.morph/src/main/java/org/apache/lucene/analysis/ko/utils/MorphUtil.java",
 		"/Users/isumyeong/Documents/Software/ctl.sh",
@@ -65,6 +109,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"수정",
 			"awt.headless",
 			"jpda"
 		],
@@ -84,8 +129,151 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/Users/isumyeong/Downloads/lucene-4.6.1 3/demo/src/java/org/apache/lucene/demo/IndexFiles.java",
+					"settings":
+					{
+						"buffer_size": 8435,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5644,
+								5644
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 11.0,
+						"translation.y": 646.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/2014_02_03 이화여대 수정/css/common.css",
+					"settings":
+					{
+						"buffer_size": 3446,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2954,
+								2956
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2409.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/0108_이화여대_R2GotIt_html/html/04_통계보기-추천통계.html",
+					"settings":
+					{
+						"buffer_size": 3429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								3429
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1666.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/0108_이화여대_R2GotIt_html/html/05_통계보기-조회통계.html",
+					"settings":
+					{
+						"buffer_size": 3623,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								3623
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1801.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/isumyeong/Documents/Works/2014.Ewha.Gotit/Design/2014_02_03 이화여대 수정/css/recommend.css",
+					"settings":
+					{
+						"buffer_size": 3242,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								90,
+								92
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 11.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -106,11 +294,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -145,6 +340,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 327.0,
+	"side_bar_width": 160.0,
 	"status_bar_visible": true
 }

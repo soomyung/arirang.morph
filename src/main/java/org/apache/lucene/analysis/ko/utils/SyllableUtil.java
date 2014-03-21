@@ -82,7 +82,7 @@ public class SyllableUtil {
    */
   public static char[] getFeature(int idx)  throws MorphException {
     
-    if(Syllables==null) Syllables = getSyllableFeature();
+    if(Syllables==null || Syllables.size()<1) Syllables = getSyllableFeature();
   
     if(idx<0||idx>=Syllables.size()) 
       return Syllables.get(Syllables.size()-1);

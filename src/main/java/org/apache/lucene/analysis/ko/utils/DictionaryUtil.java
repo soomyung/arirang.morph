@@ -108,11 +108,17 @@ public class DictionaryUtil {
     return dictionary.getPrefixedBy(prefix);
   }
 
-  public static WordEntry getWord(String key) throws MorphException {    
-    if(dictionary==null) loadDictionary();
-    if(key.length()==0) return null;
-    
-    return (WordEntry)dictionary.get(key);
+  public static WordEntry getWord(String key)  {    
+   
+	try {
+		if(dictionary==null) loadDictionary();
+	    if(key.length()==0) return null;
+	    
+	    return (WordEntry)dictionary.get(key);
+	} catch (MorphException e) {
+		throw new RuntimeException(e);
+	}
+
   }
   
   public static WordEntry getWordExceptVerb(String key) throws MorphException {    
