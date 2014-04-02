@@ -90,6 +90,7 @@ public class MorphAnalyzer {
     for(AnalysisOutput o:candidates) {
     
       if(o.getScore()==AnalysisOutput.SCORE_CORRECT || isVerbOnly) {
+    	if(o.getPatn()<=PatternConstants.PTN_NJ) confirmCNoun(o);
         break;
 //        if(o.getPatn()!=PatternConstants.PTN_NJ) correct=true;
 //        // "활성화해"가 [활성화(N),하(t),어야(e)] 분석성공하였는데 [활성/화해]분해되는 것을 방지
