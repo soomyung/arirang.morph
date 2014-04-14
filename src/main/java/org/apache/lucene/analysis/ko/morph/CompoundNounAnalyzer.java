@@ -20,7 +20,11 @@ package org.apache.lucene.analysis.ko.morph;
 import java.util.ArrayList;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.ko.utils.DictionaryUtil;
@@ -88,9 +92,6 @@ public class CompoundNounAnalyzer {
       case  5 :
         success = analyze5Word(input,outputs,isFirst);
         break;
-//      case  6 :
-//        analyze6Word(input,outputs,isFirst);
-//        break;  
       default :
         success = analyzeLongText(input,outputs,isFirst);       
     }
@@ -218,8 +219,165 @@ public class CompoundNounAnalyzer {
     
     return is;
   }
-   
+  
+  /**
+   * segment the compound noun with more than 6 characters.
+   * @param input	he compound noun which should be segmented.
+   * @param outputs
+   * @param isFirst
+   * @return
+   * @throws MorphException
+   */
   private boolean analyzeLongText(String input,List outputs, boolean isFirst) throws MorphException {
+	  
+	  // list of the word which start from a specific position.
+	  List<TreeMap<Integer, String>> wordlist = new ArrayList<TreeMap<Integer, String>>();
+	  
+	  for(int i=0;i<input.length();i++) {
+		  wordlist.add(findWords(i, input));
+	  }
+	  
+	  if(wordlist.size()<1) return false;
+	  
+	  Map<Integer, List<String>> posMap = new HashMap<Integer, List<String>>();
+	  List<String> entries = getBestCandidate(0, input, wordlist,  posMap);
+	  mergConsecutiveOneWord(entries);
+	  
+	  int offset = 0;
+	  for(String entry : entries) {
+		  WordEntry word = DictionaryUtil.getAllNoun(entry);
+		  if(word!=null) {
+			  List<CompoundEntry> list = word.getCompounds();
+			  if(list==null || list.size()<2) {
+				  outputs.add(
+				            new CompoundEntry(entry, offset, true,PatternConstants.POS_NOUN));
+			  } else {
+				  outputs.addAll(list);
+			  }
+		  }else if(exactMach)	  {
+			  return false;
+		  } else {
+			  outputs.add(
+			            new CompoundEntry(entry, offset, false,PatternConstants.POS_NOUN));
+		  }
+		  offset += entry.length();
+	  }
+	  
+	  return outputs.size()>0;
+  }
+  
+  /**
+   * merge the words with one characters which is present consecutively
+   * @param entries
+   */
+  private void mergConsecutiveOneWord(List<String> entries) {
+	  
+	  int removed = 0;
+	  int end = entries.size();
+	  
+	  boolean wasOneWord = false;
+	  
+	  for(int pos=0; pos <end;pos++ ) { 
+		  int curpos = pos-removed;
+		  String word = entries.get(curpos);
+		  
+		  if(wasOneWord && word.length()==1) {
+			  entries.set(curpos-1, entries.get(curpos-1)+word);
+			  entries.remove(curpos);
+			  removed += 1;
+		  }
+		  wasOneWord = (word.length()==1);
+	  }
+	  
+  }
+  
+  private List<String> getBestCandidate(int pos, 
+		  String input, 
+		  List<TreeMap<Integer, String>> wordlist,
+		  Map<Integer, List<String>> posMap ) {
+	  
+	  if(wordlist.size()<=pos) return null;
+	  if(posMap.get(pos)!=null) return posMap.get(pos);
+	  
+	  List<String> results = new ArrayList<String>();
+	  
+	  TreeMap<Integer, String> candidates = wordlist.get(pos);
+	  Iterator<Integer> indexes = candidates.descendingKeySet().iterator();
+	  
+	  int score = 0;
+	  List<String> bestcandidate = null;
+	  String bestterm = null;
+	  
+	  while(indexes.hasNext()) {
+		  Integer index = indexes.next();
+		  String term = candidates.get(index);
+		  
+		  int tempscore = 0;
+		  if(term.length()>1) tempscore += term.length();
+		  
+		  List<String> terms = null;
+		  
+		  if(pos+term.length() < input.length()) {
+			  terms = getBestCandidate(pos+term.length(),input,wordlist, posMap);
+			  tempscore += getScore(terms);
+		  }
+
+		  if(bestterm==null || score < tempscore) {
+			  bestcandidate = terms;
+			  bestterm = term;
+			  score = tempscore;
+		  } else if(score==tempscore && bestcandidate!=null && terms!=null && terms.size()==1 
+				  && terms.get(terms.size()-1).length()>bestcandidate.get(bestcandidate.size()-1).length()) { // (정보,법,학회) > (정보,법,학회) / The larger length the last word has, the better
+			  bestcandidate = terms;
+			  bestterm = term;
+			  score = tempscore;
+		  }
+	  }
+	  
+	  if(bestterm!=null) results.add(bestterm);
+	  if(bestcandidate!=null) results.addAll(bestcandidate);
+	  posMap.put(pos, results);
+	  
+	  return results;
+  }
+  
+  private int getScore(List<String> terms) {
+	  int score = 0;
+	  for(String term : terms) {
+		  if(term.length()>1) score += term.length();
+	  }
+	  return score;
+  }
+  
+  /**
+   * find the word with max length which start at the start position and then return the length of the word.
+   * @param start	the start position
+   * @param input	the compound noun which should be segmented.
+   * @return	the length of the word with the found word.
+   * @throws MorphException	throw exception
+   */
+  private TreeMap<Integer, String> findWords(int start, String input) throws MorphException {
+	  
+	  TreeMap<Integer, String> wordMap = new TreeMap<Integer, String>();
+	  
+	  // every term with one character is a candidate.
+	  wordMap.put(1, input.substring(start, start+1));
+	  
+	  for(int i=(start+2);i<=input.length();i++) {
+		  String text = input.substring(start,i);
+		  
+		  if(DictionaryUtil.findWithPrefix(text)==null) 
+			  break;
+		  
+		  if(DictionaryUtil.getAllNoun(text)!=null)
+			  wordMap.put(text.length(), text);
+	  }
+	  
+	  return wordMap;
+  }
+  
+  @Deprecated
+  private boolean analyzeLongTextOld(String input,List outputs, boolean isFirst) throws MorphException {
     
     int len = input.length();
     
