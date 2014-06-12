@@ -90,7 +90,7 @@ public class MorphAnalyzer {
     for(AnalysisOutput o:candidates) {
     
       if(o.getScore()==AnalysisOutput.SCORE_CORRECT || isVerbOnly) {
-    	if(o.getPatn()<=PatternConstants.PTN_NJ) confirmCNoun(o);
+    	if(o.getPatn()<=PatternConstants.PTN_NJ && !isVerbOnly) confirmCNoun(o, true);
         break;
 //        if(o.getPatn()!=PatternConstants.PTN_NJ) correct=true;
 //        // "활성화해"가 [활성화(N),하(t),어야(e)] 분석성공하였는데 [활성/화해]분해되는 것을 방지
@@ -429,15 +429,27 @@ public class MorphAnalyzer {
    * @throws MorphException exception
    */
   public boolean confirmCNoun(AnalysisOutput o) throws MorphException  {
+	  return confirmCNoun(o, false);
+  }
+  
+  public boolean confirmCNoun(AnalysisOutput o, boolean existInDic) throws MorphException  {
 
     if(o.getStem().length()<3) return false;
-     
-    
+        
     List<CompoundEntry> results = cnAnalyzer.analyze(o.getStem());
+    boolean hasOneWord = false;
+    if(!existInDic) {
+        for(CompoundEntry ce : results) {
+        	if(ce.getWord().length()==1) {
+        		hasOneWord=true;
+        		break;
+        	}
+        }
+    }
 
     boolean success = false;
        
-    if(results.size()>1) {       
+    if(results.size()>1 && hasOneWord) {       
       o.setCNoun(results);
       success = true;
       int maxWordLen = 0;
