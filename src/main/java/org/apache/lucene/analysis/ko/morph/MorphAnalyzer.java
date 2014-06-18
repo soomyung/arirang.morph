@@ -438,7 +438,7 @@ public class MorphAnalyzer {
         
     List<CompoundEntry> results = cnAnalyzer.analyze(o.getStem());
     boolean hasOneWord = false;
-    if(!existInDic) {
+    if(existInDic) {
         for(CompoundEntry ce : results) {
         	if(ce.getWord().length()==1) {
         		hasOneWord=true;
