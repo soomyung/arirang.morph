@@ -449,7 +449,7 @@ public class MorphAnalyzer {
 
     boolean success = false;
        
-    if(results.size()>1 && hasOneWord) {       
+    if(results.size()>1 && !hasOneWord) {       
       o.setCNoun(results);
       success = true;
       int maxWordLen = 0;
