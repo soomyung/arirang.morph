@@ -228,12 +228,8 @@ public class MorphUtil {
     return preword+endword;    
   }
   
-  /**
-   * 용언화접미사가 결합될 수 있는지 여부를 점검한다.
-   * 특히 사전에 등록된 되다, 하다형 의 접속이 가능한지를 조사한다.
-   */
-  public static boolean isValidSuffix(WordEntry entry, AnalysisOutput o) {
-    
-    return true;
+  public static boolean isHanSyllable(char c) {
+	  return (c<=0xD7A3&&c>=0xAC00); 
   }
+
 }
