@@ -48,7 +48,7 @@ public class AnalysisOutputComparator<T> implements Comparator<T> {
     }
     
     if(out2.getPatn()==out1.getPatn()) {
-      len = out2.getStem().length()-out1.getStem().length();
+      len = out1.getStem().length()-out2.getStem().length();
     }
     
     return len;

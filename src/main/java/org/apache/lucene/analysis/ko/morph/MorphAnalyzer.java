@@ -80,7 +80,8 @@ public class MorphAnalyzer {
 
     analysisByRule(input, candidates);    
     
-    if(!isVerbOnly||candidates.size()==0) addSingleWord(input,candidates);
+    if(!isVerbOnly||candidates.size()==0) 
+    	addSingleWord(input,candidates);
   
     Collections.sort(candidates,new AnalysisOutputComparator<AnalysisOutput>());
     
@@ -89,6 +90,13 @@ public class MorphAnalyzer {
     boolean correct = false;
     for(AnalysisOutput o:candidates) {
     
+      if(o.getPatn()==PatternConstants.PTN_N) {
+    	  if(o.getScore()==AnalysisOutput.SCORE_CORRECT) 
+    		  break;
+    	  else
+    		  continue;
+      }
+      
       if(o.getScore()==AnalysisOutput.SCORE_CORRECT || isVerbOnly) {
     	if(o.getPatn()<=PatternConstants.PTN_NJ && !isVerbOnly) confirmCNoun(o, true);
         break;
@@ -127,6 +135,7 @@ public class MorphAnalyzer {
     for(AnalysisOutput o:candidates) { 
       
       o.setSource(input);
+      
       if(o.getScore()==AnalysisOutput.SCORE_FAIL) continue; // 분석에는 성공했으나, 제약조건에 실패
       
       if(o.getScore()==AnalysisOutput.SCORE_CORRECT && o.getPos()!=PatternConstants.POS_NOUN ) 
@@ -261,9 +270,17 @@ public class MorphAnalyzer {
     }
   }
   
+  private boolean onlyHangulWithinStem(List<AnalysisOutput> candidates) {	  
+	  for(AnalysisOutput o : candidates) {
+		  if(!MorphUtil.isHanSyllable(o.getStem().charAt(o.getStem().length()-1))) return false;
+	  }
+	  return true;
+  }
+  
   private void addSingleWord(String word, List<AnalysisOutput> candidates) throws MorphException {
     
 //    if(candidates.size()!=0&&candidates.get(0).getScore()==AnalysisOutput.SCORE_CORRECT) return;
+    if(!onlyHangulWithinStem(candidates)) return ;
     
     AnalysisOutput output = new AnalysisOutput(word, null, null, PatternConstants.PTN_N);
     output.setPos(PatternConstants.POS_NOUN);
@@ -290,6 +307,9 @@ public class MorphAnalyzer {
       output.setScore(AnalysisOutput.SCORE_ANALYSIS);
       candidates.add(0,output);
     }
+    
+    if(output.getScore()!=AnalysisOutput.SCORE_CORRECT) 
+    	confirmCNoun(output);
   }
   
   /**
