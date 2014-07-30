@@ -66,6 +66,8 @@ public class MorphAnalyzer {
     return analyze(input, POS_MID);
   }
   
+
+  
   /**
    * 
    * @param input input
@@ -80,9 +82,9 @@ public class MorphAnalyzer {
 
     analysisByRule(input, candidates);    
     
-    if(!isVerbOnly||candidates.size()==0) 
+    if(!isVerbOnly && onlyHangulWithinStem(candidates) && MorphUtil.isNotCorrect(candidates) ) 
     	addSingleWord(input,candidates);
-  
+    
     Collections.sort(candidates,new AnalysisOutputComparator<AnalysisOutput>());
     
     // 복합명사 분해여부 결정하여 분해
@@ -270,17 +272,34 @@ public class MorphAnalyzer {
     }
   }
   
-  private boolean onlyHangulWithinStem(List<AnalysisOutput> candidates) {	  
+  private boolean onlyHangulWithinStem(List<AnalysisOutput> candidates) {	
+	  boolean onlyHangul = true;
 	  for(AnalysisOutput o : candidates) {
-		  if(!MorphUtil.isHanSyllable(o.getStem().charAt(o.getStem().length()-1))) return false;
+		  if(!MorphUtil.isHanSyllable(o.getStem().charAt(o.getStem().length()-1))) {
+			  onlyHangul = false;
+			  break;
+		  }
 	  }
-	  return true;
+	  
+	  if(onlyHangul) return true;
+	  
+	  List<AnalysisOutput> removeList = new ArrayList<AnalysisOutput>();
+	  for(AnalysisOutput o : candidates) {
+		  if(MorphUtil.isHanSyllable(o.getStem().charAt(o.getStem().length()-1))) {
+			  removeList.add(o);
+		  }
+	  }
+	  
+	  for(AnalysisOutput o : removeList) {
+		  candidates.remove(o);
+	  }
+	  
+	  return onlyHangul;
   }
   
   private void addSingleWord(String word, List<AnalysisOutput> candidates) throws MorphException {
     
 //    if(candidates.size()!=0&&candidates.get(0).getScore()==AnalysisOutput.SCORE_CORRECT) return;
-    if(!onlyHangulWithinStem(candidates)) return ;
     
     AnalysisOutput output = new AnalysisOutput(word, null, null, PatternConstants.PTN_N);
     output.setPos(PatternConstants.POS_NOUN);

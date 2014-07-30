@@ -232,4 +232,11 @@ public class MorphUtil {
 	  return (c<=0xD7A3&&c>=0xAC00); 
   }
 
+  public static boolean isNotCorrect(List<AnalysisOutput> candidates) {
+	  for(AnalysisOutput o : candidates) {
+		  if(o.getScore()==AnalysisOutput.SCORE_CORRECT) return false;
+	  }
+	  return true;
+  }
+  
 }

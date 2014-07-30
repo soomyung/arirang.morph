@@ -593,7 +593,7 @@ public class EomiUtil {
       
    	  strs[0] = stem.substring(0,strlen-1) + MorphUtil.makeChar(estem, 0);  
     } 
-    else if(chrs.length==3 && chrs[2]=='ㄹ' && DictionaryUtil.getVerb(stem)!=null) 
+    else if(chrs.length==3 && chrs[2]=='ㄹ' && DictionaryUtil.getVerb(stem)!=null && DictionaryUtil.combineAndEomiCheck(chrs[2], end)!=null) 
     {
         strs[1] = Character.toString(chrs[2]);
         if(end.length()>0) strs[1] += end;
