@@ -19,8 +19,6 @@ package org.apache.lucene.analysis.ko.utils;
 
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Builds a string from constituent parts providing a more flexible and powerful API

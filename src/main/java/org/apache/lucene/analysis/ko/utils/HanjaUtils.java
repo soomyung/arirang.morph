@@ -17,12 +17,12 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.morph.MorphException;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.lucene.analysis.ko.morph.MorphException;
 
 public class HanjaUtils {
 

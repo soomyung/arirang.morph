@@ -17,12 +17,12 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.morph.MorphException;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
-
-import org.apache.lucene.analysis.ko.morph.MorphException;
 
 public class KoreanEnv {
 

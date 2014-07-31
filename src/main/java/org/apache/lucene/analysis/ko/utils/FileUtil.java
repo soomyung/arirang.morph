@@ -17,20 +17,12 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import org.apache.lucene.analysis.ko.morph.MorphException;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.lucene.analysis.ko.morph.MorphException;
 
 /**
  * file utility class

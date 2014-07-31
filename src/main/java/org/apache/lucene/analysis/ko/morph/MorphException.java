@@ -17,6 +17,7 @@ package org.apache.lucene.analysis.ko.morph;
  * limitations under the License.
  */
 
+
 public class MorphException extends Exception {
 
   public MorphException() {

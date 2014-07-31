@@ -17,19 +17,12 @@ package org.apache.lucene.analysis.ko.morph;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.utils.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import org.apache.lucene.analysis.ko.utils.ConstraintUtil;
-import org.apache.lucene.analysis.ko.utils.DictionaryUtil;
-import org.apache.lucene.analysis.ko.utils.EomiUtil;
-import org.apache.lucene.analysis.ko.utils.IrregularUtil;
-import org.apache.lucene.analysis.ko.utils.MorphUtil;
-import org.apache.lucene.analysis.ko.utils.NounUtil;
-import org.apache.lucene.analysis.ko.utils.SyllableUtil;
-import org.apache.lucene.analysis.ko.utils.VerbUtil;
 
 public class MorphAnalyzer {
 
@@ -82,7 +75,8 @@ public class MorphAnalyzer {
 
     analysisByRule(input, candidates);    
     
-    if(!isVerbOnly && onlyHangulWithinStem(candidates) && MorphUtil.isNotCorrect(candidates) ) 
+    if((!isVerbOnly && onlyHangulWithinStem(candidates) && 
+    		MorphUtil.isNotCorrect(candidates)) || DictionaryUtil.getAllNoun(input)!=null) 
     	addSingleWord(input,candidates);
     
     Collections.sort(candidates,new AnalysisOutputComparator<AnalysisOutput>());
@@ -102,10 +96,6 @@ public class MorphAnalyzer {
       if(o.getScore()==AnalysisOutput.SCORE_CORRECT || isVerbOnly) {
     	if(o.getPatn()<=PatternConstants.PTN_NJ && !isVerbOnly) confirmCNoun(o, true);
         break;
-//        if(o.getPatn()!=PatternConstants.PTN_NJ) correct=true;
-//        // "활성화해"가 [활성화(N),하(t),어야(e)] 분석성공하였는데 [활성/화해]분해되는 것을 방지
-//        if(o.getPatn()==PatternConstants.PTN_NSM) break; 
-//        continue;
       }
       
       if(o.getPatn()<PatternConstants.PTN_VM&&o.getStem().length()>2) {
@@ -394,7 +384,7 @@ public class MorphAnalyzer {
   public void analysisWithEomi(String stem, String end, List<AnalysisOutput> candidates) throws MorphException {
     
     String[] morphs = EomiUtil.splitEomi(stem, end);
-    if(morphs[0]==null) return; // 어미가 사전에 등록되어 있지 않다면....
+    if(morphs[0]==null || ("어서의".equals(morphs[1]) && !"있".equals(morphs[0]))) return; // 어미가 사전에 등록되어 있지 않다면...., 어미(어서의)는 용어(있) 하고만 결합한다.
 
     String[] pomis = EomiUtil.splitPomi(morphs[0]);
 
@@ -410,8 +400,7 @@ public class MorphAnalyzer {
         MorphUtil.buildPtnVM(output, candidates);
         
         char[] features = SyllableUtil.getFeature(stem.charAt(stem.length()-1)); // ㄹ불규칙일 경우
-        if((features[SyllableUtil.IDX_YNPLN]=='0'||morphs[1].charAt(0)!='ㄴ')
-            &&!"는".equals(end))   // "갈(V),는" 분석될 수 있도록
+        if((features[SyllableUtil.IDX_YNPLN]=='0'||morphs[1].charAt(0)!='ㄴ')&&!"는".equals(end))   // "갈(V),는" 분석될 수 있도록
           return;
       }
 
@@ -512,7 +501,10 @@ public class MorphAnalyzer {
   
     if(success) {
       if(constraint(o)) {
-        o.setScore(AnalysisOutput.SCORE_CORRECT);
+        if(hasOneWord(o))
+            o.setScore(AnalysisOutput.SCORE_SIM_CORRECT);
+        else
+            o.setScore(AnalysisOutput.SCORE_CORRECT);
       } else {
         o.setScore(AnalysisOutput.SCORE_FAIL);
         success = false;
@@ -527,7 +519,17 @@ public class MorphAnalyzer {
 
     return success;
        
-  }  
+  }
+
+  private boolean hasOneWord(AnalysisOutput o) {
+      List<CompoundEntry> entries = o.getCNounList();
+      for(CompoundEntry entry : entries) {
+          if(entry.getWord().length()==1) {
+              return true;
+          }
+      }
+      return false;
+  }
      
   private boolean constraint(AnalysisOutput o) throws MorphException  {
        

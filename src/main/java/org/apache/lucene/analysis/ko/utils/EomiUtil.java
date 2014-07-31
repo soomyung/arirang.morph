@@ -17,12 +17,12 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.lucene.analysis.ko.morph.AnalysisOutput;
 import org.apache.lucene.analysis.ko.morph.MorphException;
 import org.apache.lucene.analysis.ko.morph.PatternConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EomiUtil {
   

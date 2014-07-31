@@ -17,17 +17,17 @@ package org.apache.lucene.analysis.ko.morph;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.utils.Utilities;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.lucene.analysis.ko.utils.Utilities;
 
 public class AnalysisOutput implements Cloneable {
 
   public static final int SCORE_CORRECT = 100;
-  public static final int SCORE_COMPOUNDS = 70;  
-  public static final int SCORE_ANALYSIS = 30;  
-  public static final int SCORE_CANDIDATE = 10;
+  public static final int SCORE_SIM_CORRECT = 90; // when success to decompound noun, but has one length of word of decompounded word.
+  public static final int SCORE_COMPOUNDS = 70;
+  public static final int SCORE_ANALYSIS = 30;
   public static final int SCORE_FAIL = 0;
   
   private String source; //분석하기 전 문자열(띄워쓰기 모듈에서 사용된다.)

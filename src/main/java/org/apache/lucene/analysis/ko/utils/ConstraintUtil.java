@@ -17,10 +17,10 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.morph.PatternConstants;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.lucene.analysis.ko.morph.PatternConstants;
 
 /**
  * 결합이 가능한 조건을 처리하는 클래스
@@ -94,6 +94,7 @@ public class ConstraintUtil {
     JOSA_THREE.put("으", "Y");
     JOSA_THREE.put("은", "Y");
     JOSA_THREE.put("을", "Y");
+    JOSA_THREE.put("이", "Y");
   }
   
   public static boolean canHaheCompound(String key) {

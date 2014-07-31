@@ -17,15 +17,15 @@ package org.apache.lucene.analysis.ko.utils;
  * limitations under the License.
  */
 
+import org.apache.lucene.analysis.ko.morph.CompoundEntry;
+import org.apache.lucene.analysis.ko.morph.MorphException;
+import org.apache.lucene.analysis.ko.morph.WordEntry;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.lucene.analysis.ko.morph.CompoundEntry;
-import org.apache.lucene.analysis.ko.morph.MorphException;
-import org.apache.lucene.analysis.ko.morph.WordEntry;
 
 public class DictionaryUtil {
   
@@ -83,7 +83,7 @@ public class DictionaryUtil {
       
       WordEntry entry = null;
       if(infos.length==2) 
-        entry = new WordEntry(infos[0].trim(),"20000000X".toCharArray());
+        entry = new WordEntry(infos[0].trim(),"200000000X".toCharArray());
       else 
         entry = new WordEntry(infos[0].trim(),("200"+infos[2]+"0X").toCharArray());
       
@@ -120,15 +120,23 @@ public class DictionaryUtil {
 	}
 
   }
-  
+
+  public static void addEntry(WordEntry entry) {
+      try {
+           if(dictionary==null) loadDictionary();
+           dictionary.add(entry.getWord(), entry);
+      } catch (MorphException e) {
+          throw new RuntimeException(e);
+      }
+  }
+
   public static WordEntry getWordExceptVerb(String key) throws MorphException {    
     WordEntry entry = getWord(key);    
     if(entry==null) return null;
     
     if(entry.getFeature(WordEntry.IDX_NOUN)=='1'||
         entry.getFeature(WordEntry.IDX_NOUN)=='2'||
-        entry.getFeature(WordEntry.IDX_BUSA)=='1'
-        ) 
+        entry.getFeature(WordEntry.IDX_BUSA)=='1')
       return entry;
     
     return null;

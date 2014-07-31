@@ -37,13 +37,13 @@ public class WordListComparator implements Comparator<WordListCandidate> {
     int size2 = o2.getWordList().size();
     
     if(lenC1 != lenC2) return lenC2-lenC1;
-    
+
+    if(size1 != size2) return size1 - size2;
+
     if(noV1!=noV2) return noV2-noV1;
     
     if(noUK1!=noUK2) return noUK1-noUK2;
-    
-    if(size1 != size2) return size1 - size2;
-    
+
     return compareLength(o1.getWordList(), o2.getWordList());
   }
   
