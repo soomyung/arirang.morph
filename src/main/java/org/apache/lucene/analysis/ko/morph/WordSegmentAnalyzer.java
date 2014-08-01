@@ -195,7 +195,7 @@ public class WordSegmentAnalyzer {
       if(newCandidates!=null) candiateList.addAll(newCandidates);
       if(candiateList.size()>=maxCandidate) {
           Collections.sort(candiateList, new WordListComparator());
-          candiateList.removeAll(candiateList.subList(adjustNoOfCandidate,candiateList.size()));
+          removeLast(candiateList,adjustNoOfCandidate);
       }
       
 //      int newStart = validation(candiateList, thisChar, start, inputText);
@@ -349,6 +349,19 @@ public class WordSegmentAnalyzer {
       score = Math.min(score, o.getScore());
     }
     return score;
+  }
+  
+  private void removeLast(List<WordListCandidate> list, int start) {
+  	List<WordListCandidate> removed = new ArrayList<WordListCandidate>();
+  	for(int i=start;i<list.size();i++) {
+  		removed.add(list.get(i));
+  	}
+  	
+  	for(Object o : removed) {
+  		list.remove(o);
+  	}
+  	
+  	removed=null;
   }
   
 }
