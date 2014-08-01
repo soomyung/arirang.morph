@@ -30,7 +30,8 @@ public class WordSegmentAnalyzer {
 
     private static final int adjustNoOfCandidate = 40;
 
-    public List<List<AnalysisOutput>> analyze(String inputText) throws MorphException {
+    @SuppressWarnings("unused")
+	public List<List<AnalysisOutput>> analyze(String inputText) throws MorphException {
         int[] nounPos = new int[inputText.length()];
         for(int i=0;i<inputText.length();i++) nounPos[i]=-1; // initialization
 

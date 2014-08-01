@@ -51,10 +51,10 @@ public class VerbUtil {
    */
   public static int endsWithVerbSuffix(String stem) {
     int len = stem.length();
-    if(len<2) return -1;
+    if(len<2 || (len==2 && stem.charAt(0)=='수' && stem.charAt(1)=='있')) return -1;
     int start = 2;
     if(len==2) start = 1;      
-    for(int i=start;i>0;i--) { // suffix 의 가장 긴 글자수가 2이다.
+    for(int i=start;i>0;i--) { // the most length of verb suffix is 2
       if(verbSuffix.get(stem.substring(len-i))!=null) return (len-i);
     }    
     return -1;
