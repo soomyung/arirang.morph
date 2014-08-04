@@ -139,13 +139,14 @@ public class VerbUtil {
     int idxVbSfix = VerbUtil.endsWithVerbSuffix(o.getStem());
     WordEntry entry = DictionaryUtil.getAllNoun(o.getStem());
     
+    char[] chrs = MorphUtil.decompose(o.getStem().charAt(o.getStem().length()-1));
     if(wiAbbrevs.get(o.getEomi())==null||entry==null) {
       if(idxVbSfix<1) return false;     
       o.setVsfx(o.getStem().substring(idxVbSfix));
       o.setStem(o.getStem().substring(0,idxVbSfix));
       entry = DictionaryUtil.getAllNoun(o.getStem());
     } else { // 이 축약인 경우
-      if(entry==null) return false;
+      if(entry==null || chrs.length==3) return false;
       o.setVsfx("이");
       o.setStem(o.getStem());
     }

@@ -29,6 +29,8 @@ public class WordSegmentAnalyzer {
     private static final int maxCandidate = 64;
 
     private static final int adjustNoOfCandidate = 40;
+    
+    private static final String possibleWordStartJosa = "의은가나며아야에엔여와요이";
 
     @SuppressWarnings("unused")
 	public List<List<AnalysisOutput>> analyze(String inputText) throws MorphException {
@@ -43,19 +45,31 @@ public class WordSegmentAnalyzer {
             }
         }
 
-        List<String> segList = splitByNoun(inputText, nounPos);
+        int[] oneJosa = new int[inputText.length()];
+        List<String> segList = splitByNoun(inputText, nounPos,oneJosa);
         List<List<AnalysisOutput>> result = new ArrayList<List<AnalysisOutput>>();
         
         // less than 4 length word without noun can be a unknown noun. in many case it is a person's name.
-        if(segList.size()==1 && inputText.length()<=4) return result;
+//        if(segList.size()==1 && inputText.length()<=4) return result;
         
+        int offset = 0;
         for(int i=0;i<segList.size();i++) {
-            analyze(segList.get(i), result);
+        	int length = segList.get(i).length();
+        	boolean containOneJosa = isContainOneJosa(offset, length,oneJosa);
+            analyze(segList.get(i), result, containOneJosa);
+            offset += length;
         }
 
         return result;
     }
 
+    private boolean isContainOneJosa(int offset, int length, int[] oneJosa) {
+    	for(int i=offset;i<length;i++) {
+    		if(oneJosa[i]==1) return true;
+    	}
+    	return false;
+    }
+    
     /**
      * find the longest noun with more than 2 length.
      * @param start
@@ -79,7 +93,7 @@ public class WordSegmentAnalyzer {
         return lastIndex;
     }
 
-    public List<String> splitByNoun(String inputText, int[] nounPos) {
+    public List<String> splitByNoun(String inputText, int[] nounPos, int[] oneJosa) throws MorphException {
         List<Integer> positions = new LinkedList<Integer>();
 
         for(int i=1;i<nounPos.length;i++) {
@@ -91,6 +105,9 @@ public class WordSegmentAnalyzer {
             }
             if(endWithMe==-1) continue; // there is no word starting at i position
 
+            if(possibleWordStartJosa.indexOf(inputText.charAt(i))!=-1)
+            	oneJosa[i] = 1;
+            
             boolean possibleWord = true;
             for(int j=endWithMe+1;j<nounPos.length;j++) {
                 if(nounPos[j]!=-1&&(nounPos[j]<endWithMe ||
@@ -125,12 +142,12 @@ public class WordSegmentAnalyzer {
    * @return  segmented sentence into words
  * @throws MorphException 
    */
-  public void analyze(String inputText, List<List<AnalysisOutput>> result) throws MorphException {
+  public void analyze(String inputText, List<List<AnalysisOutput>> result, boolean containOneJosa) throws MorphException {
 
     List<WordListCandidate> candiateList = new ArrayList<WordListCandidate>();
 
     List<AnalysisOutput> aoList = morphAnal.analyze(inputText);
-    if(aoList.get(0).getScore()==AnalysisOutput.SCORE_CORRECT) { // valid morpheme
+    if(aoList.get(0).getScore()==AnalysisOutput.SCORE_CORRECT && !containOneJosa) { // valid morpheme
         result.add(aoList);
         return;
     }
@@ -152,7 +169,7 @@ public class WordSegmentAnalyzer {
       String thisChar = Character.toString(inputText.charAt(start));
       List<WordListCandidate> newCandidates = null;
       
-      if(!divided) {
+//      if(!divided) {
         // newly created candidates
         newCandidates = new ArrayList<WordListCandidate>();
         
@@ -180,7 +197,7 @@ public class WordSegmentAnalyzer {
           
           newCandidates.add(newCandidate);
         }
-      }
+//      }
       
       List<AnalysisOutput> outputs = morphAnal.analyze(thisChar);
 
@@ -230,8 +247,8 @@ public class WordSegmentAnalyzer {
     for(int i=1;i<size;i++) {
       List<AnalysisOutput> outputs1 = candidate.getWordList().get(i-1);
       List<AnalysisOutput> outputs2 = candidate.getWordList().get(i);
-      if(outputs1.get(0).getSource().length()==1 
-          && outputs2.get(0).getSource().length()==1)
+      if(outputs1.get(0).getStem().length()==1 
+          && outputs2.get(0).getStem().length()==1)
         return true;
     }
     
