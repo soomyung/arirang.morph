@@ -339,7 +339,9 @@ public class MorphAnalyzer {
     char[] chrs = MorphUtil.decompose(stem.charAt(stem.length()-1));
     if(!DictionaryUtil.existJosa(end)||
         (chrs.length==3&&ConstraintUtil.isTwoJosa(end))||
-        (chrs.length==2&&(ConstraintUtil.isThreeJosa(end))||"".equals(end))) return; // 연결이 가능한 조사가 아니면...
+        (chrs.length==2&&(ConstraintUtil.isThreeJosa(end))||
+        "".equals(end))) 
+    	return; // 연결이 가능한 조사가 아니면...
 
     AnalysisOutput output = new AnalysisOutput(stem, end, null, PatternConstants.PTN_NJ);
     output.setPos(PatternConstants.POS_NOUN);

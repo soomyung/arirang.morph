@@ -45,7 +45,10 @@ public class WordSegmentAnalyzer {
 
         List<String> segList = splitByNoun(inputText, nounPos);
         List<List<AnalysisOutput>> result = new ArrayList<List<AnalysisOutput>>();
-
+        
+        // less than 4 length word without noun can be a unknown noun. in many case it is a person's name.
+        if(segList.size()==1 && inputText.length()<=4) return result;
+        
         for(int i=0;i<segList.size();i++) {
             analyze(segList.get(i), result);
         }
@@ -205,8 +208,7 @@ public class WordSegmentAnalyzer {
 //      if(divided) start = newStart;
     }
     
-    Collections.sort(candiateList, new WordListComparator());
-    Collections.sort(candiateList, new WordListComparator());
+     Collections.sort(candiateList, new WordListComparator());
 //    List<AnalysisOutput> result = new ArrayList<AnalysisOutput>();
     for(WordListCandidate candidate : candiateList) {
       

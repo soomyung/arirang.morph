@@ -42,7 +42,7 @@ public class VerbUtil {
     String[] xverbs = {"오","내","주","보","지","놓","하","가","오르","올리"};
     for(int i=0;i<xverbs.length;i++) XVerb.put(xverbs[i], xverbs[i]);
     
-    String[] eomis = {"고","거나"}; // 이 축약이 일어나는 어미
+    String[] eomis = {"고","거나", "다"}; // 이 축약이 일어나는 어미
     for(int i=0;i<eomis.length;i++) wiAbbrevs.put(eomis[i], eomis[i]);
   }
   
