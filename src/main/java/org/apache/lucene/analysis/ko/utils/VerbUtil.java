@@ -42,7 +42,7 @@ public class VerbUtil {
     String[] xverbs = {"오","내","주","보","지","놓","하","가","오르","올리"};
     for(int i=0;i<xverbs.length;i++) XVerb.put(xverbs[i], xverbs[i]);
     
-    String[] eomis = {"고","거나", "다"}; // 이 축약이 일어나는 어미
+    String[] eomis = {"고","거나", "다","란"}; // 이 축약이 일어나는 어미
     for(int i=0;i<eomis.length;i++) wiAbbrevs.put(eomis[i], eomis[i]);
   }
   
@@ -134,11 +134,13 @@ public class VerbUtil {
    */
   public static boolean ananlysisNSM(AnalysisOutput o, List<AnalysisOutput> candidates) throws MorphException {
 
+	if(o.getStem()==null || o.getStem().length()==0) return false;
+	
     if(o.getStem().endsWith("스러우")) o.setStem(o.getStem().substring(0,o.getStem().length()-3)+"스럽");
 
     int idxVbSfix = VerbUtil.endsWithVerbSuffix(o.getStem());
     WordEntry entry = DictionaryUtil.getAllNoun(o.getStem());
-    
+   
     char[] chrs = MorphUtil.decompose(o.getStem().charAt(o.getStem().length()-1));
     if(wiAbbrevs.get(o.getEomi())==null||entry==null) {
       if(idxVbSfix<1) return false;     
