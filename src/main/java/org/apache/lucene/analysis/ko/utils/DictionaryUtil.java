@@ -99,7 +99,6 @@ public class DictionaryUtil {
       if(infos.length!=2) continue;      
       abbreviations.put(infos[0].trim(), infos[1].trim());
     }
-    
   }
 
   @SuppressWarnings({"rawtypes","unchecked"})

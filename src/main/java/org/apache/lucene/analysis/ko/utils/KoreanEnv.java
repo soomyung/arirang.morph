@@ -124,7 +124,7 @@ public class KoreanEnv {
       byte[] in = FileUtil.readByteFromCurrentJar(FILE_KOREAN_PROPERTY);
       properties.load(new ByteArrayInputStream(in));
     } catch (Exception e) {
-      throw new MorphException("Failure while trying to load properties file " + file.getPath(), e);
+      throw new MorphException("Failure while trying to load properties file ", e);
     }
     return properties;
   }

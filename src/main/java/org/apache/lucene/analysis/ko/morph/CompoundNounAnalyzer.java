@@ -122,17 +122,17 @@ public class CompoundNounAnalyzer {
       }
     }
 
-    int[] units3 = {3,1};
-    CompoundEntry[] entries3 = analysisBySplited(units3,input,isFirst);
-    if(entries3!=null && entries3[0].isExist()&&entries3[1].isExist()) {
-      outputs.addAll(Arrays.asList(entries3));    
-      return true;    
-    }
-    
     int[] units1 = {2,2};
     CompoundEntry[] entries1 = analysisBySplited(units1,input,isFirst);
     if(entries1!=null && entries1[0].isExist()&&entries1[1].isExist()) {
       outputs.addAll(Arrays.asList(entries1));    
+      return true;    
+    }
+    
+    int[] units3 = {3,1};
+    CompoundEntry[] entries3 = analysisBySplited(units3,input,isFirst);
+    if(entries3!=null && entries3[0].isExist()&&entries3[1].isExist()) {
+      outputs.addAll(Arrays.asList(entries3));    
       return true;    
     }
     
