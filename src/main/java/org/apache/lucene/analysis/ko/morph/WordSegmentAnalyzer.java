@@ -144,6 +144,11 @@ public class WordSegmentAnalyzer {
    */
   public void analyze(String inputText, List<List<AnalysisOutput>> result, boolean containOneJosa) throws MorphException {
 
+	int length = inputText.length();
+	
+	if( length == 0 )
+		return ;
+	  
     List<WordListCandidate> candiateList = new ArrayList<WordListCandidate>();
 
     List<AnalysisOutput> aoList = morphAnal.analyze(inputText);
@@ -152,7 +157,7 @@ public class WordSegmentAnalyzer {
         return;
     }
 
-      int length = inputText.length();
+      
     // add last character as the first candidate
     WordListCandidate listCandidate = new WordListCandidate(
         morphAnal.analyze(inputText.substring(length-1,length)));
