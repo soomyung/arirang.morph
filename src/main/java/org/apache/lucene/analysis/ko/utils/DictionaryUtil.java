@@ -102,7 +102,7 @@ public class DictionaryUtil {
   }
 
   @SuppressWarnings({"rawtypes","unchecked"})
-  public static Iterator<String[]> findWithPrefix(String prefix) throws MorphException {
+  public static Iterator<WordEntry> findWithPrefix(String prefix) throws MorphException {
     if(dictionary==null) loadDictionary();
     return dictionary.getPrefixedBy(prefix);
   }
@@ -286,7 +286,7 @@ public class DictionaryUtil {
       prefixs = new HashMap<String, String>();
       readFile(prefixs,KoreanEnv.FILE_PREFIX);
     }
-
+    
     if(prefixs.get(str)==null) return false;
     else return true;
   }

@@ -1,9 +1,8 @@
 package org.apache.lucene.analysis.ko.morph;
 
-import org.apache.lucene.analysis.ko.utils.DictionaryUtil;
-
-import java.util.Iterator;
 import java.util.List;
+
+import org.apache.lucene.analysis.ko.utils.DictionaryUtil;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -39,25 +38,25 @@ public class AbbrevAnalyzer {
     String eMorph[] = findAbbrv(input);
     if(eMorph[0]==null) return;
     
-    String normInput = input.substring(0, input.length()-eMorph[0].length());
+//    String normInput = input.substring(0, input.length()-eMorph[0].length());
 //    morphAnalyzer.analyze(normInput, pos);
   }
   
-  private String lookupDictionary(String input) throws MorphException {
-  
-    String word = null;
-    
-    for(int i=1; i<input.length();i++) {
-      String snippet = input.substring(0,i);
-      
-      Iterator<String[]> entries = DictionaryUtil.findWithPrefix(snippet);
-      if(!entries.hasNext()) break;
-      
-      word = snippet;
-    }
-    
-    return word;
-  }
+//  private String lookupDictionary(String input) throws MorphException {
+//  
+//    String word = null;
+//    
+//    for(int i=1; i<input.length();i++) {
+//      String snippet = input.substring(0,i);
+//      
+//      Iterator<String[]> entries = DictionaryUtil.findWithPrefix(snippet);
+//      if(!entries.hasNext()) break;
+//      
+//      word = snippet;
+//    }
+//    
+//    return word;
+//  }
   
   private String[] findAbbrv(String end) throws MorphException {
     String[] abbrev = new String[2];

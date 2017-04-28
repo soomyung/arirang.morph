@@ -114,7 +114,8 @@ public interface PatternConstants {
   public static char POS_DQUOTE  = 'd';       //* double quotation      */
   public static char POS_LPAREN  = 'l';       //* left parenthesis      */
   public static char POS_RPAREN  = 'r';       //* right parenthesis     */
-  
+  public static char POS_ENG  = 'E';       //* english     */
+  public static char POS_JAMO  = 'G';       //* hangul jamo    */
   
   /**----------------------  불규칙 변형 유형  ------------------------ */  
   public static char IRR_TYPE_DI = 'd';  //* ㄷ 불규칙

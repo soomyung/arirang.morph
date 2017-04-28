@@ -36,10 +36,10 @@ public class VerbUtil {
   
   static {
     String[] suffixs = {
-        "이","하","되","내", "스럽","시키","있","없","같","당하","만하","드리","받","짓"};
+        "이","하","되","내", "스럽","시키","있","없","같","당하","만하","드리","받","주","짓"};
     for(int i=0;i<suffixs.length;i++) verbSuffix.put(suffixs[i], suffixs[i]);
     
-    String[] xverbs = {"오","내","주","보","지","놓","하","가","오르","올리"};
+    String[] xverbs = {"오","내","주","보","지","놓","하","가","오르","올리","두"};
     for(int i=0;i<xverbs.length;i++) XVerb.put(xverbs[i], xverbs[i]);
     
     String[] eomis = {"고","거나", "다","란"}; // 이 축약이 일어나는 어미

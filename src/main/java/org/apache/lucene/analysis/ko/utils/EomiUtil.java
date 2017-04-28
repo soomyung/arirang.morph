@@ -30,10 +30,6 @@ public class EomiUtil {
   
   public static final String RESULT_SUCCESS = "1";
   
-  public static final String[] verbSuffix = {
-      "이","하","되","스럽","스러우","시키","있","없","같","당하","만하","드리","받","나","내"
-  };
-  
   /**
    * 가장 길이가 긴 어미를 분리한다.
    * @param term  term
